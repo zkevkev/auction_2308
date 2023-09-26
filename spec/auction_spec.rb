@@ -22,6 +22,7 @@ RSpec.describe Auction do
 
     it 'has attributes' do
       expect(@auction.items).to eq([])
+      allow(@auction).to receive(:date).and_return('25/9/2023')
     end
   end
 
