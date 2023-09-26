@@ -38,4 +38,17 @@ class Auction
     end
     bidder_names.uniq
   end
+
+  def bidder_info
+    bidders = {}
+    @items.each do |item|
+      item.bids.each do |attendee, bid|
+        bidders[attendee] ||= { budget: 0, items: [] }
+        budget = attendee.budget.gsub('$', '').to_i
+        bidders[attendee][:budget] = budget
+        bidders[attendee][:items] << item
+      end
+    end
+    bidders
+  end
 end
