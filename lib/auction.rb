@@ -47,9 +47,7 @@ class Auction
     @items.each do |item|
       item.bids.each do |attendee, bid|
         bidders[attendee] ||= { budget: 0, items: [] }
-        # do this a way that does not violate law of Demeter, Hades
-        budget = attendee.budget.gsub('$', '').to_i
-        bidders[attendee][:budget] = budget
+        bidders[attendee][:budget] = attendee.budget
         bidders[attendee][:items] << item
       end
     end
@@ -62,16 +60,22 @@ class Auction
       highest_bidder = item.bids.max_by do |attendee, bid|
         bid
       end
-      # do this a way that does not violate law of Demeter, Hades
-      if highest_bidder != nil
-        budget = highest_bidder[0].budget.gsub('$', '').to_i
-      end
-      
+
       if highest_bidder == nil
         items_sold[item] = 'Not Sold'
-      elsif budget >= highest_bidder[1]
-        items_sold[item] = highest_bidder[0]
+      else
+        bidder_won = highest_bidder[0]
+        bid = highest_bidder[1]
+
+        if bidder_won.budget >= bid
+          items_sold[item] = bidder_won
+          bidder_won.budget -= bid
+        else
+          # need to somehow gather second highest bid here (maybe a helper?)
+          # make above helper, run through check (or do recursively)
+        end
       end
+      item.close_bidding
     end
     items_sold
   end

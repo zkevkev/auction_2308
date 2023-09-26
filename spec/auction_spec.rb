@@ -56,6 +56,10 @@ RSpec.describe Auction do
       @item4.add_bid(@attendee3, 50)
       
       expect(@auction.unpopular_items).to eq([@item2, @item5])
+
+      @item2.add_bid(@attendee1, 30)
+
+      expect(@auction.unpopular_items).to eq([@item5])
     end
   end
 
