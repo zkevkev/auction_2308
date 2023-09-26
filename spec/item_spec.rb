@@ -1,3 +1,5 @@
+require './lib/item'
+
 RSpec.describe Item do
   before(:each) do
     @item1 = Item.new('Chalkware Piggy Bank')
