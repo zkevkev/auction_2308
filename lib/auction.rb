@@ -44,6 +44,7 @@ class Auction
     @items.each do |item|
       item.bids.each do |attendee, bid|
         bidders[attendee] ||= { budget: 0, items: [] }
+        # do this a way that does not violate law of Demeter, Hades
         budget = attendee.budget.gsub('$', '').to_i
         bidders[attendee][:budget] = budget
         bidders[attendee][:items] << item
