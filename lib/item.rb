@@ -14,6 +14,10 @@ class Item
     high_bid = @bids.max_by do |attendee, bid|
       bid
     end
-    high_bid[1]
+    if high_bid.nil?
+      return 0
+    else
+      return high_bid[1]
+    end
   end
 end
