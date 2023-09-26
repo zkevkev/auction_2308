@@ -112,4 +112,32 @@ RSpec.describe Auction do
       expect(@auction.bidder_info).to eq(expected)
     end
   end
+
+  describe '#cose_auction' do
+    it 'returns a hash with items linked to the attendee that had the highest bid' do
+      @auction.add_item(@item1)
+      @auction.add_item(@item2)
+      @auction.add_item(@item3)
+      @auction.add_item(@item4)
+      @auction.add_item(@item5)
+      @item1.add_bid(@attendee1, 18)
+      @item1.add_bid(@attendee2, 30)
+      @item2.add_bid(@attendee1, 30)
+      @item3.add_bid(@attendee2, 5)
+      @item3.add_bid(@attendee3, 3)
+      @item4.add_bid(@attendee3, 40)
+      @item4.add_bid(@attendee1, 55)
+      @item4.add_bid(@attendee2, 45)
+      
+      expected = {
+        @item1 => @attendee2,
+        @item2 => @attendee1,
+        @item3 => @attendee3,
+        @item4 => @attendee2,
+        @item5 => 'Not Sold'
+      }
+      
+      expect(@auction.close_auction).to eq(expected)
+    end
+  end
 end

@@ -55,4 +55,24 @@ class Auction
     end
     bidders
   end
+
+  def close_auction
+    items_sold = {}
+    @items.each do |item|
+      highest_bidder = item.bids.max_by do |attendee, bid|
+        bid
+      end
+      # do this a way that does not violate law of Demeter, Hades
+      if highest_bidder != nil
+        budget = highest_bidder[0].budget.gsub('$', '').to_i
+      end
+      
+      if highest_bidder == nil
+        items_sold[item] = 'Not Sold'
+      elsif budget >= highest_bidder[1]
+        items_sold[item] = highest_bidder[0]
+      end
+    end
+    items_sold
+  end
 end
