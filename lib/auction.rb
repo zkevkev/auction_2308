@@ -69,9 +69,10 @@ class Auction
 
         if bidder_won.budget >= bid
           items_sold[item] = bidder_won
+          # make a reduce budget method for this in attendee (this is messy)
           bidder_won.budget -= bid
         else
-          # need to somehow gather second highest bid here (maybe a helper?)
+          # need to somehow gather second highest bid here (maybe a helper? could also do in loop)
           # make above helper, run through check (or do recursively)
         end
       end
